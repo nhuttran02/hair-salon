@@ -1,0 +1,602 @@
+# #Common references
+# components:
+#   schemas:
+#     Service:
+#       type: object
+#       properties:
+#         services_id:
+#           type: integer
+#           readOnly: true #Returned by HTTP GET
+#         services_name:
+#           type: string
+#           description: service name
+#         services_des:
+#           type: string
+#           description: service description
+#         services_price:
+#           type: number
+#           format: double
+#           description: service price
+#         services_duration:
+#           type: integer
+#           description: service duration
+#         services_created_at:
+#           type: string
+#           format: date-time
+#           description: service created at
+#         services_updated_at:
+#           type: string
+#           format: date-time
+#           description: service updated at
+
+# components:
+#   schemas:
+#     Service:
+#       type: object
+#       properties:
+#         services_id:
+#           type: integer
+#           readOnly: true # Chỉ trả về trong GET, không cần gửi từ client trong POST
+#         services_name:
+#           type: string
+#           description: Service name
+#         services_des:
+#           type: string
+#           description: Service description
+#         services_price:
+#           type: number
+#           format: double
+#           description: Service price
+#         services_duration:
+#           type: integer
+#           description: Service duration (minutes)
+#         services_created_at:
+#           type: string
+#           format: date-time
+#           description: Service created at
+#           readOnly: true  # Chỉ trả về khi GET
+#         services_updated_at:
+#           type: string
+#           format: date-time
+#           description: Service updated at
+#           readOnly: true  # Chỉ trả về khi GET
+
+
+
+components:
+  schemas:
+    Service:
+      type: object
+      properties:
+        services_id:
+          type: integer
+          description: ID of the service
+        services_name:
+          type: string
+          description: Name of the service
+        services_des:
+          type: string
+          description: Description of the service
+        services_price:
+          type: number
+          format: double
+          description: Price of the service
+        services_duration:
+          type: integer
+          description: Duration of the service in minutes
+        services_created_at:
+          type: string
+          format: date-time
+          description: Time when the service was created
+        services_updated_at:
+          type: string
+          format: date-time
+          description: Time when the service was last updated
+
+    Address:
+      type: object
+      required:
+        - street
+        - province_code
+        - district_code
+        - ward_code
+      properties:
+        address_id:
+          type: integer
+          description: ID of the address
+          readOnly: true  # Chỉ đọc, không thể ghi khi tạo mới
+        user_id:
+          type: integer
+          description: ID of the user associated with the address
+          nullable: true  # Cho phép để trống
+        street:
+          type: string
+          description: Street address details
+          minLength: 1  # Ít nhất 1 ký tự
+          maxLength: 255  # Giới hạn độ dài
+        province_code:
+          type: string
+          description: Code of the province
+          minLength: 1
+          maxLength: 10
+        district_code:
+          type: string
+          description: Code of the district
+          minLength: 1
+          maxLength: 10
+        ward_code:
+          type: string
+          description: Code of the ward
+          minLength: 1
+          maxLength: 10
+        administrative_unit_id:
+          type: integer
+          description: ID of the administrative unit
+          nullable: true
+        administrative_region_id:
+          type: integer
+          description: ID of the administrative region
+          nullable: true
+        address_created_at:
+          type: string
+          format: date-time
+          description: Time when the address was created
+          readOnly: true
+        address_updated_at:
+          type: string
+          format: date-time
+          description: Time when the address was last updated
+          readOnly: true
+
+    # Address:
+    #   type: object
+    #   properties:
+    #     address_id:
+    #       type: integer
+    #       description: ID of the address
+    #     user_id:
+    #       type: integer
+    #       description: ID of the user associated with the address
+    #     street:
+    #       type: string
+    #       description: Street address details
+    #     province_code:
+    #       type: string
+    #       description: Code of the province
+    #     district_code:
+    #       type: string
+    #       description: Code of the district
+    #     ward_code:
+    #       type: string
+    #       description: Code of the ward
+    #     administrative_unit_id:
+    #       type: integer
+    #       description: ID of the administrative unit
+    #     administrative_region_id:
+    #       type: integer
+    #       description: ID of the administrative region
+    #     address_created_at:
+    #       type: string
+    #       format: date-time
+    #       description: Time when the address was created
+    #     address_updated_at:
+    #       type: string
+    #       format: date-time
+    #       description: Time when the address was last updated
+
+    Branch:
+      type: object
+      properties:
+        branch_id:
+          type: integer
+          description: ID of the branch
+        branch_name:
+          type: string
+          description: Name of the branch
+        branch_address:
+          type: string
+          description: Address of the branch
+        branch_created_at:
+          type: string
+          format: date-time
+          description: Time when the branch was created
+        branch_updated_at:
+          type: string
+          format: date-time
+          description: Time when the branch was last updated
+
+    Hairstyle:
+      type: object
+      properties:
+        hs_id:
+          type: integer
+          description: ID of the hairstyle
+        hs_name:
+          type: string
+          description: Name of the hairstyle
+        hs_image_url:
+          type: string
+          description: URL of the hairstyle image
+        hs_des:
+          type: string
+          description: Description of the hairstyle
+        hs_created_at:
+          type: string
+          format: date-time
+          description: Time when the hairstyle was created
+        hs_updated_at:
+          type: string
+          format: date-time
+          description: Time when the hairstyle was last updated
+
+    Appointment:
+      type: object
+      properties:
+        apm_id:
+          type: integer
+          description: Appointment ID
+        apm_customer_name:
+          type: string
+          description: Name of the customer for the appointment
+        apm_gender:
+          type: string
+          enum: [male, female]
+          description: Gender of the customer
+        apm_phone:
+          type: string
+          description: Phone number of the customer
+        apm_service_id:
+          type: integer
+          description: ID of the associated service
+        service_details:
+          type: object
+          properties:
+            services_id:
+              type: integer
+              description: Service ID
+            services_name:
+              type: string
+              description: Name of the service
+        apm_branch:
+          type: integer
+          description: ID of the associated branch
+        branch_details:
+          type: object
+          properties:
+            branch_id:
+              type: integer
+              description: Branch ID
+            branch_name:
+              type: string
+              description: Name of the branch
+        apm_time:
+          type: string
+          format: date-time
+          description: Time of the appointment
+        apm_status:
+          type: string
+          enum: [pending, confirmed, cancelled]
+          description: Status of the appointment
+        apm_created_at:
+          type: string
+          format: date-time
+          description: Time when the appointment was created
+        apm_updated_at:
+          type: string
+          format: date-time
+          description: Time when the appointment was last updated
+
+    Customer:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+          description: Customer ID
+        customer_name:
+          type: string
+          description: Name of the customer
+        customer_phone:
+          type: string
+          description: Phone number of the customer
+        customer_email:
+          type: string
+          format: email
+          description: Email of the customer
+        customer_gender:
+          type: string
+          enum: [male, female, other]
+          description: Gender of the customer
+        customer_created_at:
+          type: string
+          format: date-time
+          description: When the customer was created
+        customer_updated_at:
+          type: string
+          format: date-time
+          description: When the customer was last updated
+
+    Staff:
+      type: object
+      properties:
+        staff_id:
+          type: integer
+          description: Staff ID
+        staff_name:
+          type: string
+          description: Staff member's name
+        staff_phone:
+          type: string
+          description: Staff member's phone number
+        staff_email:
+          type: string
+          description: Staff member's email
+        staff_role:
+          type: string
+          description: Staff member's role or position
+        staff_gender:
+          type: string
+          enum: [male, female, other]
+          description: Staff member's gender
+        staff_dob:
+          type: string
+          format: date
+          description: Staff member's date of birth
+        staff_address:
+          type: string
+          description: Staff member's address
+        staff_hire_date:
+          type: string
+          format: date
+          description: Date when staff was hired
+        staff_salary:
+          type: number
+          format: double
+          description: Staff member's salary
+        staff_created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the staff was created
+        staff_updated_at:
+          type: string
+          format: date-time
+          description: The timestamp when the staff was last updated
+
+    Admin:
+      type: object
+      properties:
+        ad_id:
+          type: integer
+          description: Admin ID
+        ad_username:
+          type: string
+          description: Username of the admin
+        ad_password:
+          type: string
+          description: Password of the admin (hashed)
+        ad_name:
+          type: string
+          description: Name of the admin
+        ad_gender:
+          type: string
+          enum: [male, female]
+          description: Gender of the admin
+        ad_phone:
+          type: string
+          description: Phone number of the admin
+        ad_address:
+          type: string
+          description: Address of the admin
+        ad_created_at:
+          type: string
+          format: date-time
+          description: Time when the admin was created
+        ad_updated_at:
+          type: string
+          format: date-time
+          description: Time when the admin was last updated
+
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: Unique ID of the user
+        user_username:
+          type: string
+          description: Username of the user
+        user_password:
+          type: string
+          description: Hashed password of the user (not returned in responses)
+          writeOnly: true
+        user_name:
+          type: string
+          nullable: true
+          description: Full name of the user (nullable if not provided)
+        user_email:
+          type: string
+          description: Email address of the user
+        user_role:
+          type: integer
+          enum: [1, 2]
+          description: Role of the user (1 - admin, 2 - regular user)
+        gender_id:
+          type: integer
+          nullable: true
+          description: Gender ID of the user (nullable if not provided)
+        user_phone:
+          type: string
+          nullable: true
+          description: Phone number of the user (nullable if not provided)
+        user_address_id:
+          type: integer
+          nullable: true
+          description: Address ID linked to the user's address (nullable if not provided)
+        user_created_at:
+          type: string
+          format: date-time
+          description: Timestamp indicating when the user was created
+        user_updated_at:
+          type: string
+          format: date-time
+          description: Timestamp indicating when the user was last updated
+      required:
+        - user_id
+        - user_username
+        - user_email
+        - user_role
+
+    # User:
+    #   type: object
+    #   properties:
+    #     user_id:
+    #       type: integer
+    #       description: User ID
+    #     user_username:
+    #       type: string
+    #       description: Username of the user
+    #     user_password:
+    #       type: string
+    #       description: Password of the user (hashed)
+    #     user_name:
+    #       type: string
+    #       description: Name of the user
+    #     user_email:
+    #       type: string
+    #       description: Email of the user
+    #     user_role:
+    #       type: integer
+    #       enum: [1, 2]
+    #       description: Role of the user (1 - admin, 2 - regular user)
+    #     user_created_at:
+    #       type: string
+    #       format: date-time
+    #       description: Time when the user was created
+    #     user_updated_at:
+    #       type: string
+    #       format: date-time
+    #       description: Time when the user was last updated    #chạy ổn
+
+    # User:
+    #   type: object
+    #   required:
+    #     - user_username
+    #     - user_password
+    #     - user_email
+    #   properties:
+    #     user_id:
+    #       type: integer
+    #       description: User ID
+    #     user_username:
+    #       type: string
+    #       description: Username of the user
+    #     user_password:
+    #       type: string
+    #       description: Password of the user (hashed)
+    #     user_name:
+    #       type: string
+    #       description: Full name of the user
+    #     user_gender:
+    #       type: string
+    #       enum: [male, female, other]
+    #       description: Gender of the user
+    #     user_phone:
+    #       type: string
+    #       description: Phone number of the user
+    #     user_email:
+    #       type: string
+    #       format: email
+    #       description: Email address of the user
+    #     user_address:
+    #       type: string
+    #       description: Address of the user
+    #     user_role:
+    #       type: integer
+    #       description: Role ID associated with the user
+    #     user_created_at:
+    #       type: string
+    #       format: date-time
+    #       description: Time when the user was created
+    #     user_updated_at:
+    #       type: string
+    #       format: date-time
+    #       description: Time when the user was last updated
+
+    PaginationMetadata:
+      type: object
+      properties:
+        totalRecords:
+          type: integer
+          default: 0
+          description: The total number of records
+        firstPage:
+          type: integer
+          default: 1
+          description: The first page
+        lastPage:
+          type: integer
+          default: 1
+          description: The last page
+        page:
+          type: integer
+          default: 1
+          description: The current page
+        limit:
+          type: integer
+          default: 5
+          description: The number of records per page 
+
+  responses:
+    '200NoData':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status
+                enum:
+                  - success
+              data:
+                type: object
+                nullable: true
+                default: null
+                description: The response data
+  
+  parameters:
+    serviceIdParam:
+      name: services_id
+      description: Service ID
+      required: true
+      in: path
+      schema:
+        type: integer
+
+    appointmentIdParam:
+      name: apm_id
+      description: Appointment ID
+      required: true
+      in: path
+      schema:
+        type: integer
+
+    limitParam:
+      name: limit
+      description: Number of records per page
+      in: query
+      schema:
+        type: integer
+        default: 5
+        minimum: 1
+        maximum: 100
+      required: false
+
+    pageParam:
+      name: page
+      description: Page number of records
+      in: query
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+      required: false
